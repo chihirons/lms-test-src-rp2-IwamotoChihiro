@@ -9,6 +9,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -121,6 +122,64 @@ public class WebDriverUtils {
 	 */
 	public String getPageTaitle() {
 		return webDriver.getTitle();
+	}
+
+	/**
+	 * ページ内の一致するIDを持つ要素を返す
+	 * @author 岩本 知寛
+	 * @param target ID名
+	 * @return 要素情報
+	 */
+	public WebElement findElementById(String target) {
+		return webDriver.findElement(By.id(target));
+	}
+
+	/**
+	 * ページ内の一致するクラス名を持つ要素を返す
+	 * @author 岩本 知寛
+	 * @param target ID名
+	 * @return 要素情報
+	 */
+	public WebElement findElementByClassName(String target) {
+		return webDriver.findElement(By.className(target));
+	}
+
+	/**
+	 * 要素に値を入力する
+	 * @author 岩本 知寛
+	 * @param target     ID名
+	 * @param inputValue 要素へ入力するデータ
+	 */
+	public void enterElement(WebElement target, String inputValue) {
+		target.sendKeys(inputValue);
+	}
+
+	/**
+	 * 要素の値をクリアする
+	 * @author 岩本 知寛
+	 * @param target clear対象の要素
+	 */
+	public void clearElement(WebElement target) {
+		target.clear();
+	}
+
+	/**
+	 * 要素をクリックする
+	 * @author 岩本 知寛
+	 * @param target click対象の要素
+	 */
+	public void clickButton(WebElement target) {
+		target.click();
+	}
+
+	/**
+	 * 要素内のテキストを取得する
+	 * @author 岩本 知寛
+	 * @param target click対象の要素
+	 * @return 要素内のテキストを返却する
+	 */
+	public String getText(WebElement target) {
+		return target.getText();
 	}
 
 }

@@ -1,6 +1,7 @@
 package jp.co.sss.lms.ct.f01_login1;
 
 import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -9,6 +10,11 @@ import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
+import jp.co.sss.lms.ct.util.DateTimeUtils;
+import jp.co.sss.lms.ct.util.WebDriverUtils;
 
 /**
  * 結合テスト ログイン機能①
@@ -31,18 +37,69 @@ public class Case02 {
 		closeDriver();
 	}
 
+	/**
+	 * ログイン処理の共通化
+	 * @author 岩本 知寛
+	 */
+	void disLoginScreen() {
+		String loginPageTitle = "ログイン | LMS";
+		goTo("http://localhost:8080/lms/");
+		assertEquals(loginPageTitle, (new WebDriverUtils()).getPageTaitle());
+	}
+
 	@Test
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		// TODO ここに追加
+		disLoginScreen();
+		// ログイン画面をLMSプロジェクト直下のevidenceフォルダに保存 
+		getEvidence(
+				new Object() {
+				}, (new DateTimeUtils()).createTimestampSuffix());
 	}
 
 	@Test
 	@Order(2)
 	@DisplayName("テスト02 DBに登録されていないユーザーでログイン")
 	void test02() {
+		WebDriverUtils webUtils = new WebDriverUtils();
+
 		// TODO ここに追加
+		String idFieldLoginId = "loginId";
+		String idFieldPassword = "password";
+		String classNameFieldSubmitBuutton = "btn-primary";
+		String classNameFieldLoginFaildMsg = "error";
+		String userIdString = "ID：StudentAA01";
+		String failPassword = "NoSuchUserTestPass01";
+		int timeOutSeconds = 5;
+
+		disLoginScreen();
+
+		//描画待ち
+		visibilityTimeout(By.id(idFieldLoginId), timeOutSeconds);
+		visibilityTimeout(By.id(idFieldPassword), timeOutSeconds);
+		visibilityTimeout(By.className(classNameFieldSubmitBuutton), timeOutSeconds);
+
+		WebElement loginIdElement = webUtils.findElementById(idFieldLoginId);
+		WebElement passwordElement = webUtils.findElementById(idFieldPassword);
+		WebElement submitButtonElement = webUtils.findElementByClassName(classNameFieldSubmitBuutton);
+
+		webUtils.clearElement(loginIdElement);
+		webUtils.enterElement(loginIdElement, userIdString);
+		webUtils.clearElement(passwordElement);
+		webUtils.enterElement(passwordElement, failPassword);
+		webUtils.clickButton(submitButtonElement);
+
+		// ログインエラー画面のチェック
+		String errorMsgString = "* ログインに失敗しました。";
+		String loginPageTitle = "ログイン | LMS";
+		WebElement faildMsgElement = webUtils.findElementByClassName(classNameFieldLoginFaildMsg);
+		assertEquals(errorMsgString, webUtils.getText(faildMsgElement));
+		assertEquals(loginPageTitle, (new WebDriverUtils()).getPageTaitle());
+		getEvidence(
+				new Object() {
+				}, (new DateTimeUtils()).createTimestampSuffix());
 	}
 
 }
