@@ -137,11 +137,22 @@ public class WebDriverUtils {
 	/**
 	 * ページ内の一致するクラス名を持つ要素を返す
 	 * @author 岩本 知寛
-	 * @param target ID名
+	 * @param target class名
 	 * @return 要素情報
 	 */
 	public WebElement findElementByClassName(String target) {
 		return webDriver.findElement(By.className(target));
+	}
+
+	/**
+	 * 指定されたCSSセレクタに一致する要素を返す
+	 * @author 岩本 知寛
+	 * @param target 検索対象のCSSセレクタ
+	 *                (例: ".btn.btn-primary", "#submit-id")
+	 * @return 要素情報
+	 */
+	public WebElement findElementByCssSelector(String target) {
+		return webDriver.findElement(By.cssSelector(target));
 	}
 
 	/**

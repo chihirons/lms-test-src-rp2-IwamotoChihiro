@@ -68,9 +68,9 @@ public class Case02 {
 		// TODO ここに追加
 		String idFieldLoginId = "loginId";
 		String idFieldPassword = "password";
-		String classNameFieldSubmitBuutton = "btn-primary";
-		String classNameFieldLoginFaildMsg = "error";
-		String userIdString = "ID：StudentAA01";
+		String classFieldSubmitBuutton = "btn-primary";
+		String classFieldLoginFaildMsg = ".help-inline.error";
+		String userIdString = "StudentAA01";
 		String failPassword = "NoSuchUserTestPass01";
 		int timeOutSeconds = 5;
 
@@ -79,11 +79,11 @@ public class Case02 {
 		//描画待ち
 		visibilityTimeout(By.id(idFieldLoginId), timeOutSeconds);
 		visibilityTimeout(By.id(idFieldPassword), timeOutSeconds);
-		visibilityTimeout(By.className(classNameFieldSubmitBuutton), timeOutSeconds);
+		visibilityTimeout(By.className(classFieldSubmitBuutton), timeOutSeconds);
 
 		WebElement loginIdElement = webUtils.findElementById(idFieldLoginId);
 		WebElement passwordElement = webUtils.findElementById(idFieldPassword);
-		WebElement submitButtonElement = webUtils.findElementByClassName(classNameFieldSubmitBuutton);
+		WebElement submitButtonElement = webUtils.findElementByClassName(classFieldSubmitBuutton);
 
 		webUtils.clearElement(loginIdElement);
 		webUtils.enterElement(loginIdElement, userIdString);
@@ -94,9 +94,10 @@ public class Case02 {
 		// ログインエラー画面のチェック
 		String errorMsgString = "* ログインに失敗しました。";
 		String loginPageTitle = "ログイン | LMS";
-		WebElement faildMsgElement = webUtils.findElementByClassName(classNameFieldLoginFaildMsg);
+		visibilityTimeout(By.cssSelector(classFieldLoginFaildMsg), timeOutSeconds);
+		WebElement faildMsgElement = webUtils.findElementByCssSelector(classFieldLoginFaildMsg);
 		assertEquals(errorMsgString, webUtils.getText(faildMsgElement));
-		assertEquals(loginPageTitle, (new WebDriverUtils()).getPageTaitle());
+		assertEquals(loginPageTitle, webUtils.getPageTaitle());
 		getEvidence(
 				new Object() {
 				}, (new DateTimeUtils()).createTimestampSuffix());
