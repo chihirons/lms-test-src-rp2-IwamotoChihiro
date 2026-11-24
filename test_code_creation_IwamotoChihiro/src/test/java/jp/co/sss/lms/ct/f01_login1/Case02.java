@@ -51,7 +51,6 @@ public class Case02 {
 	@Order(1)
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
-		// TODO ここに追加
 		dispLoginScreen();
 		// ログイン画面をLMSプロジェクト直下のevidenceフォルダに保存 
 		getEvidence(
@@ -65,7 +64,6 @@ public class Case02 {
 	void test02() {
 		WebDriverUtils webUtils = new WebDriverUtils();
 
-		// TODO ここに追加
 		String idFieldLoginId = "loginId";
 		String idFieldPassword = "password";
 		String classFieldSubmitBuutton = "btn-primary";
