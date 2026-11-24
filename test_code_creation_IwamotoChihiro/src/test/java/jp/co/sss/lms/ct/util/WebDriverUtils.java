@@ -156,9 +156,29 @@ public class WebDriverUtils {
 	}
 
 	/**
+	 * HTMLタグで指定された一致する先頭の要素を返す
+	 * @author 岩本 知寛
+	 * @param target タグ名 (例> h1, span)
+	 * @return 要素情報
+	 */
+	public WebElement findElementByTagName(String target) {
+		return webDriver.findElement(By.tagName(target));
+	}
+
+	/**
+	 * aタグリンクのメッセージと一致した要素を返す(完全一致)
+	 * @author 岩本 知寛
+	 * @param target タグ名 (例> h1, span)
+	 * @return 要素情報
+	 */
+	public WebElement findElementByLinkText(String target) {
+		return webDriver.findElement(By.linkText(target));
+	}
+
+	/**
 	 * 要素に値を入力する
 	 * @author 岩本 知寛
-	 * @param target     ID名
+	 * @param target     入力ターゲットの要素
 	 * @param inputValue 要素へ入力するデータ
 	 */
 	public void enterElement(WebElement target, String inputValue) {
@@ -191,6 +211,25 @@ public class WebDriverUtils {
 	 */
 	public String getText(WebElement target) {
 		return target.getText();
+	}
+
+	/**
+	 * 現在表示しているページのURLを返す。
+	 * @author 岩本 知寛
+	 * @return 現在表示中のページURL
+	 */
+	public String getCurrentUrl() {
+		return webDriver.getCurrentUrl();
+	}
+
+	/**
+	 * アクティブ画面切り替え
+	 * @author 岩本 知寛
+	 */
+	public void switchWindow() {
+		//現在の画面取得
+		Object[] windowHandles = webDriver.getWindowHandles().toArray();
+		webDriver.switchTo().window((String) windowHandles[1]);
 	}
 
 }
