@@ -41,7 +41,7 @@ public class Case02 {
 	 * ログイン処理の共通化
 	 * @author 岩本 知寛
 	 */
-	void disLoginScreen() {
+	void dispLoginScreen() {
 		String loginPageTitle = "ログイン | LMS";
 		goTo("http://localhost:8080/lms/");
 		assertEquals(loginPageTitle, (new WebDriverUtils()).getPageTaitle());
@@ -52,7 +52,7 @@ public class Case02 {
 	@DisplayName("テスト01 トップページURLでアクセス")
 	void test01() {
 		// TODO ここに追加
-		disLoginScreen();
+		dispLoginScreen();
 		// ログイン画面をLMSプロジェクト直下のevidenceフォルダに保存 
 		getEvidence(
 				new Object() {
@@ -74,7 +74,7 @@ public class Case02 {
 		String failPassword = "NoSuchUserTestPass01";
 		int timeOutSeconds = 5;
 
-		disLoginScreen();
+		dispLoginScreen();
 
 		//描画待ち
 		visibilityTimeout(By.id(idFieldLoginId), timeOutSeconds);
