@@ -2,11 +2,14 @@ package jp.co.sss.lms.ct.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -116,6 +119,16 @@ public class WebDriverUtils {
 	}
 
 	/**
+	 * 指定した要素が存在する画面表示位置の取得
+	 * @author 岩本 知寛
+	 * @return 要素の表示座標Y位置をPixelで返却
+	 */
+	public String getScreenPixelY(WebElement element) {
+		Point location = element.getLocation();
+		return String.valueOf(location.getY());
+	}
+
+	/**
 	 * ページタイトルを取得する
 	 * @author 岩本 知寛
 	 * @return 現在表示されているページのタイトル
@@ -153,6 +166,17 @@ public class WebDriverUtils {
 	 */
 	public WebElement findElementByCssSelector(String target) {
 		return webDriver.findElement(By.cssSelector(target));
+	}
+
+	/**
+	 * 指定されたCSSセレクタに一致する要素を全て取得する
+	 * @author 岩本 知寛
+	 * @param target 検索対象のCSSセレクタ
+	 *                (例: "[id^=xxxx_]", "[id$=_xxx]")
+	 * @return 一致する全ての要素情報
+	 */
+	public List<WebElement> findAllElementsByCssSelector(String target) {
+		return webDriver.findElements(By.cssSelector(target));
 	}
 
 	/**
@@ -230,6 +254,16 @@ public class WebDriverUtils {
 		//現在の画面取得
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
 		webDriver.switchTo().window((String) windowHandles[1]);
+	}
+
+	/**
+	 * URIパスの取得
+	 * @author 岩本 知寛
+	 * @return 現在表示中画面のURIファイルパス
+	 */
+	public String getCurrentUriPath() {
+		//現在の画面取得
+		return URI.create(webDriver.getCurrentUrl()).getPath();
 	}
 
 }
