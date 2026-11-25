@@ -1,20 +1,36 @@
 package jp.co.sss.lms.ct.helper;
 
-import static jp.co.sss.lms.ct.util.WebDriverUtils.*;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import jp.co.sss.lms.ct.util.WebDriverUtils;
 
-public class LoginHelper {
-
-	private WebDriverUtils webUtils;
-
-	public LoginHelper(WebDriverUtils webUtils) {
-		this.webUtils = webUtils;
+/**
+ * ログイン/ログイン後の制御用POM
+ * @author 岩本 知寛
+ */
+public class LoginHelper extends WebDriverUtils {
+	/**
+	 * ログインページの表示
+	 * @author 岩本 知寛
+	 */
+	public void showPage() {
+		goTo("http://localhost:8080/lms/");
 	}
 
+	/**
+	 * ログインページのページタイトルを返却する
+	 * @author 岩本 知寛
+	 * @return ページタイトルを返却
+	 */
+	public String getCurrentPageTaitle() {
+		return getPageTaitle();
+	}
+
+	/**
+	 * 初回ログイン済みの「StudentAA01」ユーザーでログインを実行する
+	 * @author 岩本 知寛
+	 */
 	public void studentLoginSuccess() {
 		String idFieldLoginId = "loginId";
 		String idFieldPassword = "password";
@@ -28,18 +44,47 @@ public class LoginHelper {
 		visibilityTimeout(By.id(idFieldPassword), timeOutSeconds);
 		visibilityTimeout(By.className(classFieldSubmitBuutton), timeOutSeconds);
 
-		WebElement loginIdElement = webUtils.findElementById(idFieldLoginId);
-		WebElement passwordElement = webUtils.findElementById(idFieldPassword);
-		WebElement submitButtonElement = webUtils.findElementByClassName(classFieldSubmitBuutton);
+		WebElement loginIdElement = findElementById(idFieldLoginId);
+		WebElement passwordElement = findElementById(idFieldPassword);
+		WebElement submitButtonElement = findElementByClassName(classFieldSubmitBuutton);
 
-		webUtils.clearElement(loginIdElement);
-		webUtils.enterElement(loginIdElement, userIdString);
-		webUtils.clearElement(passwordElement);
-		webUtils.enterElement(passwordElement, failPassword);
-		webUtils.clickButton(submitButtonElement);
+		clearElement(loginIdElement);
+		enterElement(loginIdElement, userIdString);
+		clearElement(passwordElement);
+		enterElement(passwordElement, failPassword);
+		clickButton(submitButtonElement);
 
 		// ログイン後の画面描画待ち処理
 		String classFieldPageMarkerString = "active";
 		visibilityTimeout(By.className(classFieldPageMarkerString), timeOutSeconds);
+	}
+
+	/**
+	 * ログイン後のURIパス取得
+	 * @author 岩本 知寛
+	 * @return URIパス
+	 */
+	public String getLoginUriPath() {
+		return getCurrentUriPath();
+	}
+
+	/**
+	 * ログイン完了を判定するための文言取得
+	 * @author 岩本 知寛
+	 * @return ログイン完了後画面の見出し
+	 */
+	public String getExpectedText() {
+		String htmlTagFieldPageMarker = "active";
+		return getText(findElementByClassName(htmlTagFieldPageMarker));
+	}
+
+	/**
+	 * ログインユーザー名の取得
+	 * @author 岩本 知寛
+	 * @return ログインユーザー名含むメッセージ
+	 */
+	public String getExpectedLoginUserName() {
+		String cssSelecterLoginUserMsg = "li > a > small";
+		return getText(findElementByCssSelector(cssSelecterLoginUserMsg));
 	}
 }

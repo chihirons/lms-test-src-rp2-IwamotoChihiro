@@ -2,7 +2,9 @@ package jp.co.sss.lms.ct.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.time.Duration;
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -156,6 +158,17 @@ public class WebDriverUtils {
 	}
 
 	/**
+	 * 指定されたCSSセレクタに一致する要素を全て取得する
+	 * @author 岩本 知寛
+	 * @param target 検索対象のCSSセレクタ
+	 *                (例: "[id^=xxxx_]", "[id$=_xxx]")
+	 * @return 一致する全ての要素情報
+	 */
+	public List<WebElement> findAllElementsByCssSelector(String target) {
+		return webDriver.findElements(By.cssSelector(target));
+	}
+
+	/**
 	 * HTMLタグで指定された一致する先頭の要素を返す
 	 * @author 岩本 知寛
 	 * @param target タグ名 (例> h1, span)
@@ -230,6 +243,16 @@ public class WebDriverUtils {
 		//現在の画面取得
 		Object[] windowHandles = webDriver.getWindowHandles().toArray();
 		webDriver.switchTo().window((String) windowHandles[1]);
+	}
+
+	/**
+	 * URIパスの取得
+	 * @author 岩本 知寛
+	 * @return 現在表示中画面のURIファイルパス
+	 */
+	public String getCurrentUriPath() {
+		//現在の画面取得
+		return URI.create(webDriver.getCurrentUrl()).getPath();
 	}
 
 }

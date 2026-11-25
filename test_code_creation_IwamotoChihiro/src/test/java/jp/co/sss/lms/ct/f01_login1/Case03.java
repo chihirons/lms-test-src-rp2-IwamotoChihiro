@@ -29,7 +29,8 @@ import jp.co.sss.lms.ct.util.WebDriverUtils;
 public class Case03 {
 
 	private final WebDriverUtils webDriverUtils = new WebDriverUtils();
-	private final LoginHelper loginHelper = new LoginHelper(webDriverUtils);
+	//	private final LoginHelper loginHelper = new LoginHelper(webDriverUtils);
+	private final LoginHelper loginHelper = new LoginHelper();
 
 	/** 前処理 */
 	@BeforeAll
